@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>创业坟场 · 1749 家失败公司的遗产数据库</title>
+<meta name="description" content="1749 家死亡创业公司，5350 亿美元烧掉的资本。打捞残骸，看清死因，炼出下一个机会。数据源自 loot-drop.io。">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☠</text></svg>">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- ============ 顶部导航 ============ -->
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#top">
+      <span class="brand-skull">☠</span>
+      <span class="brand-text">创业坟场<small>LOOT DROP · 中文版</small></span>
+    </a>
+    <nav class="nav-links">
+      <a href="#burn">烧钱榜</a>
+      <a href="#causes">死因图谱</a>
+      <a href="#sectors">行业坟场</a>
+      <a href="#timeline">死亡时间线</a>
+      <a href="#featured">名尸馆</a>
+      <a href="#database">墓碑数据库</a>
+      <a href="#lessons">启示录</a>
+    </nav>
+    <div class="nav-status"><span class="dot"></span>数据库在线 · 快照 2026-10</div>
+  </div>
+</header>
+
+<!-- ============ 英雄区 ============ -->
+<section class="hero" id="top">
+  <div class="hero-grid-bg"></div>
+  <div class="hero-scanline"></div>
+  <div class="hero-inner">
+    <div class="hero-badge">STARTUP GRAVEYARD // 失败创业公司遗骸数据库</div>
+    <h1 class="hero-title">
+      <span class="glitch" data-text="创业坟场">创业坟场</span>
+    </h1>
+    <p class="hero-sub">
+      <strong id="stat-total-inline">1749</strong> 家公司长眠于此。<br>
+      它们一共烧掉了 <strong id="stat-burn-inline">5354 亿</strong>美元的资本，平均只活了 <strong>5.4 年</strong>。<br>
+      每一座墓碑下，都埋着一份没人捡走的战利品。
+    </p>
+    <p class="hero-tagline typing" id="typewriter"></p>
+    <div class="hero-cta">
+      <a class="btn btn-primary" href="#database">⛏ 挖开墓碑数据库</a>
+      <a class="btn btn-ghost" href="#causes">先看看它们怎么死的</a>
+    </div>
+    <div class="stats-row">
+      <div class="stat">
+        <div class="stat-num" data-count="1749">0</div>
+        <div class="stat-label">具创业尸体</div>
+        <div class="stat-en">CORPSES</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" data-count="5354" data-prefix="$" data-suffix="亿">0</div>
+        <div class="stat-label">烧掉的资本</div>
+        <div class="stat-en">VC BURNED</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" data-count="5.4" data-decimal="1">0</div>
+        <div class="stat-label">平均寿命（年）</div>
+        <div class="stat-en">AVG LIFESPAN</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num" data-count="51.5" data-decimal="1" data-suffix="%">0</div>
+        <div class="stat-label">死于竞争对手</div>
+        <div class="stat-en">KILLED BY RIVALS</div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-scroll-hint">▼ 向下打捞</div>
+</section>
+
+<!-- ============ 烧钱排行榜 ============ -->
+<section class="section" id="burn">
+  <div class="section-head">
+    <h2>🔥 烧钱排行榜 <span class="section-en">TOP BURNERS</span></h2>
+    <p>史上最贵的十次失败。金额为公开报道的融资/资产规模，仅供学习参考。</p>
+  </div>
+  <div class="burn-list" id="burn-list"></div>
+</section>
+
+<!-- ============ 死因图谱 ============ -->
+<section class="section" id="causes">
+  <div class="section-head">
+    <h2>💀 死因图谱 <span class="section-en">CAUSE OF DEATH</span></h2>
+    <p>1749 具尸体解剖后，归为七种死法。其中一半以上，死于同一种东西。</p>
+  </div>
+  <div class="cause-grid" id="cause-grid"></div>
+</section>
+
+<!-- ============ 行业坟场 ============ -->
+<section class="section" id="sectors">
+  <div class="section-head">
+    <h2>🏭 行业坟场 <span class="section-en">SECTOR GRAVEYARD</span></h2>
+    <p>每个行业都有自己的死法。点击行业，直接跳到数据库里看这个行业的全部尸体。</p>
+  </div>
+  <div class="sector-grid" id="sector-grid"></div>
+</section>
+
+<!-- ============ 死亡时间线 ============ -->
+<section class="section" id="timeline">
+  <div class="section-head">
+    <h2>📅 死亡时间线 <span class="section-en">DEATH TIMELINE</span></h2>
+    <p>按年份统计的死亡数量。注意 2022 年之后的那一堵墙——那是加息周期在挤泡沫。</p>
+  </div>
+  <div class="timeline-legend">
+    <span><i class="lg lg-a"></i>互联网泡沫余波</span>
+    <span><i class="lg lg-b"></i>零利率黄金年代</span>
+    <span><i class="lg lg-c"></i>挤泡沫时代</span>
+  </div>
+  <div class="timeline-chart" id="timeline-chart"></div>
+</section>
+
+<!-- ============ 名尸陈列室 ============ -->
+<section class="section" id="featured">
+  <div class="section-head">
+    <h2>⚰️ 名尸陈列室 <span class="section-en">HALL OF FAME</span></h2>
+    <p>二十具最值得解剖的尸体：十具来自硅谷与华尔街，十具来自中国。点击墓碑，阅读验尸报告。</p>
+  </div>
+  <div class="featured-grid" id="featured-grid"></div>
+</section>
+
+<!-- ============ 墓碑数据库 ============ -->
+<section class="section" id="database">
+  <div class="section-head">
+    <h2>⛏ 墓碑数据库 <span class="section-en">FULL DATABASE</span></h2>
+    <p>全部 1749 具尸体，支持搜索与筛选。档案正文为英文原文（来自公开报道的 AI 辅助摘要），中文版陆续翻译中。</p>
+  </div>
+  <div class="db-toolbar">
+    <input type="search" id="db-search" placeholder="搜索公司名 / 关键词，如 ofo、AI、外卖…" autocomplete="off">
+    <select id="db-sector"><option value="">全部行业</option></select>
+    <select id="db-cause"><option value="">全部死因</option></select>
+    <select id="db-country"><option value="">全部国家</option></select>
+    <select id="db-sort">
+      <option value="burn">按烧钱最多</option>
+      <option value="died">按死亡最新</option>
+      <option value="life">按存活最久</option>
+      <option value="name">按名称 A-Z</option>
+    </select>
+  </div>
+  <div class="db-meta" id="db-meta"></div>
+  <div class="db-grid" id="db-grid"></div>
+  <div class="db-more-wrap"><button class="btn btn-ghost" id="db-more">加载更多墓碑 ▼</button></div>
+</section>
+
+<!-- ============ 启示录 ============ -->
+<section class="section" id="lessons">
+  <div class="section-head">
+    <h2>📜 启示录 <span class="section-en">TAKEAWAYS</span></h2>
+    <p>解剖了 1749 具尸体之后，只剩三条最重要的结论。</p>
+  </div>
+  <div class="lesson-grid">
+    <div class="lesson">
+      <div class="lesson-num">01</div>
+      <h3>PMF 是安静的信号，不是一声巨响</h3>
+      <p>203 家公司造出了「不存在的需求」。真正的产品市场契合不靠发布会和融资新闻稿，它安静得像用户悄悄的复购。</p>
+    </div>
+    <div class="lesson">
+      <div class="lesson-num">02</div>
+      <h3>像花自己的钱一样盯着烧钱率</h3>
+      <p>474 家公司死于账算不平——单位经济模型从第一天起就是负的。规模从来不是亏损的解药，成本结构才是。</p>
+    </div>
+    <div class="lesson">
+      <div class="lesson-num">03</div>
+      <h3>每一次失败都是付费课程</h3>
+      <p>901 家公司输给了巨头，但它们留下的市场认知、技术方案和教训，都是没人认领的战利品。别浪费了这笔学费。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 页脚 ============ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-brand">☠ 创业坟场 <small>LOOT DROP · 中文版</small></div>
+    <p>本站是对 <a href="https://www.loot-drop.io" target="_blank" rel="noopener">loot-drop.io</a> 的中文重构致敬版，
+       数据抓取自其公开数据库（快照日期 2026-10-04），由 AI 辅助整理自公开报道，仅供学习研究，不构成任何投资建议。</p>
+    <p>档案正文为英文原档。数据可能存在错漏，如需权威信息请查阅原始来源。本站完全静态、无追踪、无 Cookie。</p>
+    <p class="footer-fin">「每一个伟大的公司背后，都躺着一百座坟。」</p>
+  </div>
+</footer>
+
+<!-- ============ 验尸报告弹窗 ============ -->
+<div class="modal-mask" id="modal-mask" hidden>
+  <div class="modal" role="dialog" aria-modal="true">
+    <button class="modal-close" id="modal-close">✕</button>
+    <div id="modal-body"></div>
+  </div>
+</div>
+
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
