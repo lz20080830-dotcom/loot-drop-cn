@@ -1,6 +1,7 @@
 # 原始抓取数据与验收截图仅保留在本地，不进仓库
 _fetch/
 _shots/
+.mimosa/
 node_modules/
 .DS_Store
 Thumbs.db
