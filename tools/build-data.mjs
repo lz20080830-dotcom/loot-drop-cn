@@ -35,7 +35,7 @@ const recs = raw.map((r) => [
 
 const js = '/* 由 tools/build-data.mjs 生成，勿手改 */\nconst S=' + JSON.stringify(recs) +
   ';\nconst CAUSES=' + JSON.stringify(CAUSES) + ';\n';
-writeFileSync(join(root, 'site/js/data.js'), js);
+writeFileSync(join(root, 'js/data.js'), js);
 
-const mb = statSync(join(root, 'site/js/data.js')).size / 1048576;
-console.log(`site/js/data.js 生成完毕: ${recs.length} 条记录, ${mb.toFixed(2)} MB`);
+const mb = statSync(join(root, 'js/data.js')).size / 1048576;
+console.log(`js/data.js 生成完毕: ${recs.length} 条记录, ${mb.toFixed(2)} MB`);

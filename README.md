@@ -28,7 +28,7 @@ GitHub Pages: **https://lz20080830-dotcom.github.io/loot-drop-cn/**
 ## 本地运行
 
 ```bash
-cd site
+# 仓库根目录即站点目录
 python -m http.server 8080   # 或任何静态服务器
 ```
 
@@ -43,12 +43,11 @@ python -m http.server 8080   # 或任何静态服务器
 
 ```
 loot-drop-cn/
-├── site/               # 静态站点（GitHub Pages 根目录）
-│   ├── index.html
-│   ├── css/style.css
-│   └── js/
-│       ├── data.js     # 生成文件：1749 条案例压缩数据
-│       └── app.js      # 渲染逻辑 + 20 份手写中文验尸报告
+├── index.html          # 静态站点（GitHub Pages 根目录）
+├── css/style.css
+├── js/
+│   ├── data.js         # 生成文件：1749 条案例压缩数据
+│   └── app.js          # 渲染逻辑 + 20 份手写中文验尸报告
 └── tools/
     └── build-data.mjs  # 数据构建脚本（原始 JSON → data.js）
 ```
