@@ -55,6 +55,25 @@ const CC = {
 const flag = (c) => `<span class="cc">${c ? (CC[c] || c.slice(0, 2).toUpperCase()) : "??"}</span>`;
 const MP_ZH = { 3: "高", 2: "中", 1: "低" };
 
+/* ---------- 口令解锁（20 份中文验尸报告） ----------
+   口令在公众号「志投助手」回复「坟场」获取。
+   换口令：node tools/passcode-hash.mjs 新口令，替换下面两个值。 */
+const PASSCODE_SHA256 = "0589c622427330a3d3c19f3953f46e7e18faf9262e99c5e54bd36d4c923e59be";
+const PASSCODE_DJB2 = "bde0d63e"; // 无 WebCrypto 环境（如 file://）的降级校验
+const LOCK_KEY = "ldgzh_pass_v1";
+const isUnlocked = () => { try { return localStorage.getItem(LOCK_KEY) === "1"; } catch { return false; } };
+async function passcodeOk(input) {
+  const code = input.trim();
+  if (typeof crypto !== "undefined" && crypto.subtle) {
+    const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(code));
+    const hex = [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
+    return hex === PASSCODE_SHA256;
+  }
+  let h = 5381;
+  for (const c of "lootdrop::gzh::v1" + code) h = (((h << 5) + h) + c.charCodeAt(0)) >>> 0;
+  return h.toString(16) === PASSCODE_DJB2;
+}
+
 /* ---------- 名尸陈列室：手写中文验尸报告（20 例） ---------- */
 const FEATURED = [
   { name: "Silicon Valley Bank", zh: "硅谷银行", metricLabel: "资产规模",
@@ -319,7 +338,8 @@ animateCounters($(".hero"));
 })();
 
 /* ---------- 名尸陈列室 ---------- */
-(function featured() {
+function renderFeatured() {
+  const unlocked = isUnlocked();
   const byName = new Map(DATA.map((r) => [r.name, r]));
   $("#featured-grid").innerHTML = FEATURED.map((f) => {
     const r = byName.get(f.name);
@@ -336,13 +356,15 @@ animateCounters($(".hero"));
       <div class="tomb-chips">
         <span class="chip chip-cause">${CAUSE_ZH[r.cause >= 0 ? r.cause : 0].icon} ${causeZh(r.cause)}</span>
         <span class="chip chip-money"><b>${fundLabel}</b></span>
-        <span class="tomb-open">验尸报告 →</span>
+        ${unlocked ? "" : `<span class="chip chip-lock">🔒 未解锁</span>`}
+        <span class="tomb-open">${unlocked ? "验尸报告 →" : "解锁报告 🔒"}</span>
       </div>
     </div>`;
   }).join("");
   $("#featured-grid").querySelectorAll(".tomb").forEach((el) =>
     el.addEventListener("click", () => openModalByName(el.dataset.name)));
-})();
+}
+renderFeatured();
 
 /* ---------- 墓碑数据库 ---------- */
 const DB = { page: 1, per: 48, list: [] };
@@ -427,6 +449,7 @@ function scoreBlock(r) {
 }
 function openModal(r, featuredExtra) {
   const f = featuredExtra || null;
+  const locked = f && !isUnlocked();
   const secZh = SECTOR_ZH[r.sector] ? SECTOR_ZH[r.sector][0] : r.sector;
   const fundLabel = f && f.metricLabel ? f.metricLabel : "融资";
   mbody.innerHTML = `
@@ -443,24 +466,55 @@ function openModal(r, featuredExtra) {
       <span class="chip">${esc(r.type || "—")}</span>
       <span class="chip">${esc(r.country || "未知")}</span>
     </div>
-    ${f ? `
+    ${f && !locked ? `
       <div class="aut-h">验尸报告 // AUTOPSY</div>
       <p class="aut-p">${f.story}</p>
       <div class="aut-h">它曾以为 // VALUE PROP</div>
       <p class="aut-p">${f.valueZh}</p>
       <div class="aut-h red">它死于 // CAUSE OF DEATH</div>
       <p class="aut-p">${f.deathZh}</p>
-      ${scoreBlock(r)}
-      <div class="aut-h">原档案 // ORIGINAL RECORD</div>
-      <div class="aut-en">${esc(r.deathEn || r.valueEn || "—")}</div>
-    ` : `
-      ${scoreBlock(r)}
-      ${r.valueEn ? `<div class="aut-h">它曾以为 // VALUE PROP</div><div class="aut-en">${esc(r.valueEn)}</div>` : ""}
-      ${r.deathEn ? `<div class="aut-h red">它死于 // CAUSE OF DEATH</div><div class="aut-en">${esc(r.deathEn)}</div>` : ""}
-      ${r.desc ? `<div class="aut-h">完整档案 // FULL RECORD（英文原档，中文翻译陆续补充）</div><div class="aut-en">${esc(r.desc)}</div>` : ""}
-    `}`;
+    ` : ""}
+    ${locked ? `
+      <div class="aut-lock">
+        <div class="aut-lock-head">🔒 中文验尸报告 · 解锁内容</div>
+        <p class="aut-lock-p">这份报告的完整中文解剖（死亡全过程 + 重生评估解读）属于公众号 <b>「志投助手」</b> 专属内容。关注公众号，回复 <b>「坟场」</b> 领取口令，输入后即可永久解锁全部 <b>20 份</b>验尸报告。</p>
+        <div class="aut-lock-form">
+          <input id="lock-input" placeholder="输入口令…" autocomplete="off" maxlength="30">
+          <button id="lock-btn" class="aut-lock-btn">解锁</button>
+        </div>
+        <div class="aut-lock-err" id="lock-err" hidden>✕ 口令不对。关注公众号「志投助手」，回复「坟场」领取口令。</div>
+      </div>
+    ` : ""}
+    ${scoreBlock(r)}
+    ${f
+      ? `<div class="aut-h">原档案 // ORIGINAL RECORD</div><div class="aut-en">${esc(r.deathEn || r.valueEn || "—")}</div>`
+      : `${r.valueEn ? `<div class="aut-h">它曾以为 // VALUE PROP</div><div class="aut-en">${esc(r.valueEn)}</div>` : ""}
+         ${r.deathEn ? `<div class="aut-h red">它死于 // CAUSE OF DEATH</div><div class="aut-en">${esc(r.deathEn)}</div>` : ""}
+         ${r.desc ? `<div class="aut-h">完整档案 // FULL RECORD（英文原档，免费阅读）</div><div class="aut-en">${esc(r.desc)}</div>` : ""}`
+    }`;
   mask.hidden = false;
   document.body.style.overflow = "hidden";
+  if (locked) bindUnlock(r, f);
+}
+function bindUnlock(r, f) {
+  const btn = document.getElementById("lock-btn");
+  const input = document.getElementById("lock-input");
+  const err = document.getElementById("lock-err");
+  if (!btn || !input) return;
+  const tryUnlock = async () => {
+    if (await passcodeOk(input.value)) {
+      try { localStorage.setItem(LOCK_KEY, "1"); } catch {}
+      renderFeatured();
+      openModal(r, f); // 解锁成功，原地渲染完整报告
+    } else if (err) {
+      err.hidden = false;
+      input.value = "";
+      input.focus();
+    }
+  };
+  btn.addEventListener("click", tryUnlock);
+  input.addEventListener("keydown", (e) => { if (e.key === "Enter") tryUnlock(); });
+  input.focus();
 }
 function openModalByName(name) {
   const r = DATA.find((x) => x.name === name);

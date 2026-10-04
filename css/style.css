@@ -508,6 +508,31 @@ a { color: var(--cyan); text-decoration: none; }
   border-radius: 10px; padding: 14px 16px; margin-top: 6px;
 }
 
+/* ============ 口令解锁 ============ */
+.chip-lock { color: var(--amber); border: 1px dashed rgba(255, 176, 32, 0.5); }
+.aut-lock {
+  border: 1px dashed rgba(255, 176, 32, 0.45); border-radius: 12px;
+  background: rgba(255, 176, 32, 0.05);
+  padding: 22px 24px; margin: 18px 0 6px;
+}
+.aut-lock-head { color: var(--amber); font-weight: 800; font-size: 16px; letter-spacing: 1px; margin-bottom: 10px; }
+.aut-lock-p { color: var(--text-dim); font-size: 14px; margin-bottom: 16px; }
+.aut-lock-p b { color: var(--amber); }
+.aut-lock-form { display: flex; gap: 10px; }
+.aut-lock-form input {
+  flex: 1; background: rgba(0, 0, 0, 0.35); border: 1px solid var(--line-strong);
+  border-radius: 8px; color: #fff; font-family: var(--mono); font-size: 15px;
+  letter-spacing: 2px; padding: 11px 14px; outline: none; min-width: 0;
+}
+.aut-lock-form input:focus { border-color: var(--amber); box-shadow: 0 0 14px rgba(255, 176, 32, 0.2); }
+.aut-lock-btn {
+  background: linear-gradient(135deg, var(--amber), #ff7a18); border: none;
+  border-radius: 8px; color: #1a1000; font-weight: 800; font-size: 15px;
+  padding: 0 26px; cursor: pointer; letter-spacing: 2px; transition: all 0.2s;
+}
+.aut-lock-btn:hover { transform: translateY(-1px); box-shadow: 0 0 20px rgba(255, 176, 32, 0.5); }
+.aut-lock-err { color: var(--red); font-size: 13px; margin-top: 10px; font-family: var(--mono); }
+
 /* ============ 公众号徽标 ============ */
 .nav-gzh {
   font-family: var(--mono); font-size: 11.5px; color: var(--amber);
