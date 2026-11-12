@@ -1,5 +1,5 @@
 // 从 _fetch/startups.json（loot-drop.io 公开 API 抓取的原始数据）
-// 生成 site/js/data.js —— 前端用的压缩数据表
+// 生成 js/data.js —— 前端用的压缩数据表
 import { readFileSync, writeFileSync, statSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { dirname, join } from 'node:path';
